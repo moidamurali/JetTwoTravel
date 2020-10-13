@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     tools:context=".view.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_description"
+    <Button
+        android:id="@+id/btn_load_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -15,11 +15,14 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="Load More"
+        android:textAllCaps="false"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
+        android:background="@drawable/button_selector"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="@dimen/margin_bottom"/>
 
 
 

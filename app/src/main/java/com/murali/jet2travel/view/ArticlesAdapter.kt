@@ -9,6 +9,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -32,51 +33,69 @@ class ArticlesAdapter(
         this.mKeyNames = articlesList
     }
 
-    companion object {
-        private const val TYPE_HEADER = 0
-        const val TYPE_RECORDS = 1
-        const val TYPE_FOOTER = 2
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         //To change body of created functions use File | Settings | File Templates.
         val inflater = LayoutInflater.from(parent.context)
 
-         val viewHolder: RecyclerView.ViewHolder = when (viewType) {
+        /*    if(viewType==TYPE_HEADER)
+            {
+                return HeaderViewHolder(inflater.inflate(R.layout.layout_header,parent,false))
 
-             TYPE_HEADER -> HeaderViewHolder(inflater.inflate(R.layout.layout_header, parent, false))
+            }else if(viewType==TYPE_RECORDS){
+                return  InfoViewHolder(inflater.inflate(R.layout.layout_articles_adapter, parent, false))
+            }else {
+                return FooterViewHolder(inflater.inflate(R.layout.layout_footer, parent, false))
+            }*/
 
-             else -> InfoViewHolder(inflater.inflate(R.layout.layout_articles_adapter, parent, false))
+        val viewHolder: RecyclerView.ViewHolder = when (viewType) {
 
-      }
-      return viewHolder
+            CellType.HEADER.ordinal -> HeaderViewHolder(inflater.inflate(R.layout.layout_header, parent, false))
+
+            CellType.CONTENT.ordinal ->  return  InfoViewHolder(inflater.inflate(R.layout.layout_articles_adapter, parent, false))
+
+            CellType.FOOTER.ordinal -> return FooterViewHolder(inflater.inflate(R.layout.layout_footer, parent, false))
+
+            else -> return  InfoViewHolder(inflater.inflate(R.layout.layout_articles_adapter, parent, false))
+
+        }
+        return viewHolder
     }
 
     override fun getItemCount(): Int {
         //To change body of created functions use File | Settings | File Templates.
-        return articlesList.size
+        return articlesList.size + 2
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         //To change body of created functions use File | Settings | File Templates.
 
-        when (position){
-            0 -> holder as HeaderViewHolder
-
-            else -> (holder as InfoViewHolder).bind(position,articlesList.get(position), mContext)
-
+        when (getItemViewType(position)) {
+            CellType.HEADER.ordinal -> {
+                val headerViewHolder = holder as HeaderViewHolder
+                //headerViewHolder.bindView()
+            }
+            CellType.CONTENT.ordinal -> {
+                val headerViewHolder = holder as InfoViewHolder
+                headerViewHolder.bind(position,articlesList.get(position-1), mContext)
+            }
+            CellType.FOOTER.ordinal -> {
+                val footerViewHolder = holder as FooterViewHolder
+                //footerViewHolder.bindView()
+            }
         }
+
+
 
     }
 
     override fun getItemViewType(position: Int): Int {
 
-        val type = when (position) {
-            0 -> TYPE_HEADER
-
-            else -> TYPE_RECORDS
+        return when (position) {
+            0 -> CellType.HEADER.ordinal
+            articlesList.size + 1 -> CellType.FOOTER.ordinal
+            else -> CellType.CONTENT.ordinal
         }
-        return type
     }
 
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -154,7 +173,23 @@ class ArticlesAdapter(
 
 
 
-    class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        var loadMoreButton: Button
+        var mContext: Context
+        var count = 1
+        init {
+            loadMoreButton = itemView.findViewById<View>(R.id.btn_load_more) as Button
+            loadMoreButton.setOnClickListener(this)
+            mContext = view.context
+        }
+
+        override fun onClick(v: View?) {
+            when(v!!.id){
+                R.id.btn_load_more -> {
+                   // TODO need to implement
+                }
+            }
+        }
 
     }
 
@@ -165,6 +200,16 @@ class ArticlesAdapter(
             addAll(users)
         }
 
+    }
+
+
+    /***
+     * Enum class for recyclerview Cell type
+     */
+    enum class CellType(viewType: Int) {
+        HEADER(0),
+        FOOTER(1),
+        CONTENT(2)
     }
 
 
