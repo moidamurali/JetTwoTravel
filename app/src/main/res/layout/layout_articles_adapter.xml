@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
+    <com.murali.jet2travel.view.customview.CircleImageView
         android:id="@+id/user_avatar"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"
