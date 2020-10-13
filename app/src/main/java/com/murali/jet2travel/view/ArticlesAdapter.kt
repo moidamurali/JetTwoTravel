@@ -38,16 +38,6 @@ class ArticlesAdapter(
         //To change body of created functions use File | Settings | File Templates.
         val inflater = LayoutInflater.from(parent.context)
 
-        /*    if(viewType==TYPE_HEADER)
-            {
-                return HeaderViewHolder(inflater.inflate(R.layout.layout_header,parent,false))
-
-            }else if(viewType==TYPE_RECORDS){
-                return  InfoViewHolder(inflater.inflate(R.layout.layout_articles_adapter, parent, false))
-            }else {
-                return FooterViewHolder(inflater.inflate(R.layout.layout_footer, parent, false))
-            }*/
-
         val viewHolder: RecyclerView.ViewHolder = when (viewType) {
 
             CellType.HEADER.ordinal -> HeaderViewHolder(inflater.inflate(R.layout.layout_header, parent, false))
@@ -73,7 +63,6 @@ class ArticlesAdapter(
         when (getItemViewType(position)) {
             CellType.HEADER.ordinal -> {
                 val headerViewHolder = holder as HeaderViewHolder
-                //headerViewHolder.bindView()
             }
             CellType.CONTENT.ordinal -> {
                 val headerViewHolder = holder as InfoViewHolder
@@ -81,11 +70,8 @@ class ArticlesAdapter(
             }
             CellType.FOOTER.ordinal -> {
                 val footerViewHolder = holder as FooterViewHolder
-                //footerViewHolder.bindView()
             }
         }
-
-
 
     }
 
@@ -99,7 +85,7 @@ class ArticlesAdapter(
     }
 
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
+    //Do Nothing
     }
 
     class InfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -195,16 +181,6 @@ class ArticlesAdapter(
         }
 
     }
-
-
-    fun addArticles(users: List<Articles>) {
-        this.articlesList.apply {
-            clear()
-            addAll(users)
-        }
-
-    }
-
 
     /***
      * Enum class for recyclerview Cell type

@@ -5,9 +5,6 @@
 package com.murali.jet2travel.view
 
 import Articles
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -64,13 +61,6 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
                 }
             }
         })
-    }
-
-    private fun retrieveList(articles: List<Articles>) {
-        adapter.apply {
-            addArticles(articles)
-            notifyDataSetChanged()
-        }
     }
 
     override fun onResume() {
