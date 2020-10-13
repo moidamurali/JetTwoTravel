@@ -143,7 +143,7 @@ class ArticlesAdapter(
 
 
             if(articles.comments!=null && articles.comments!=0) {
-                commentsTextView.text = articles.comments!!.toString()
+                commentsTextView.text = articles.comments!!.toString() + " Comments"
             }else
                 commentsTextView.text = " No Comments"
 
