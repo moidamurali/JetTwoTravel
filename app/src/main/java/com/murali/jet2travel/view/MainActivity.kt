@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
 
     private lateinit var viewModel: ArticlesViewModel
     private lateinit var adapter: ArticlesAdapter
+    var count = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +39,9 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
         registerReceiver(NetworkStateReceiver(), IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this,BaseFactory(getApplication(),1,10)).get(ArticlesViewModel::class.java)
+     fun setupViewModel(countValue : Int) {
+        count = countValue
+        viewModel = ViewModelProviders.of(this,BaseFactory(getApplication(),1,count*10)).get(ArticlesViewModel::class.java)
 
     }
 
@@ -50,12 +52,16 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
         rv_articles.adapter = adapter
     }
 
-    private fun setupObservers() {
+     fun setupObservers() {
         viewModel.observableProject!!.observe(this, Observer {
             it?.let { resource ->
                 progressBar.visibility = View.GONE
-                //retrieveList(resource)
                 setupUI(resource as ArrayList<Articles>)
+
+                if(count>1){
+                    adapter == null
+                    setupUI(resource as ArrayList<Articles>)
+                }
             }
         })
     }
@@ -83,7 +89,7 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
             Toast.makeText(this, "Network Not Available", Toast.LENGTH_LONG).show()
         } else {
 
-            setupViewModel()
+            setupViewModel(count)
             setupObservers()
         }
     }

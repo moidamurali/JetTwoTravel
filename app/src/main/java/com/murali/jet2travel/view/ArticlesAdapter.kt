@@ -186,7 +186,10 @@ class ArticlesAdapter(
         override fun onClick(v: View?) {
             when(v!!.id){
                 R.id.btn_load_more -> {
-                   // TODO need to implement
+                    (mContext as MainActivity).getViewModelStore().clear();
+                    count++
+                    (mContext as MainActivity).setupViewModel(count)
+                    (mContext as MainActivity).setupObservers()
                 }
             }
         }
