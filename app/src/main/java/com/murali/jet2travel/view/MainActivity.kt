@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.murali.jet2travel.R
+import com.murali.jet2travel.utils.Constants
 import com.murali.jet2travel.utils.NetworkStateReceiver
 import com.murali.jet2travel.viewmodel.ArticlesViewModel
 import com.murali.jet2travel.viewmodel.BaseFactory
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
     private fun showNetworkMessage(isConnected: Boolean) {
         if (!isConnected) {
             progressBar.visibility = View.GONE
+            Constants.noConnectionDialog(this)
             Toast.makeText(this, "Network Not Available", Toast.LENGTH_LONG).show()
         } else {
 

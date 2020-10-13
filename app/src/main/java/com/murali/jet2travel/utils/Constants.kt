@@ -5,7 +5,9 @@
 package com.murali.jet2travel.utils
 
 import android.R
+import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ScaleDrawable
 import android.widget.ImageView
@@ -73,6 +75,23 @@ class Constants{
                 }
 
             }
+
+        fun noConnectionDialog( activity: Activity){
+            val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(activity)
+            builder.setMessage("No Internet connection. Do you want to close application")
+            builder.setCancelable(true)
+
+            builder.setPositiveButton("Yes", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+                activity.finish()
+            })
+
+            builder.setNegativeButton( "No", DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
+
+            val alert: android.app.AlertDialog? = builder.create()
+            alert!!.show()
+        }
+
         }
 
     }
