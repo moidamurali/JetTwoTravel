@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.murali.jet2travel.R
 import com.murali.jet2travel.utils.Constants
@@ -172,10 +173,15 @@ class ArticlesAdapter(
         override fun onClick(v: View?) {
             when(v!!.id){
                 R.id.btn_load_more -> {
-                    (mContext as MainActivity).getViewModelStore().clear();
-                    count++
-                    (mContext as MainActivity).setupViewModel(count)
-                    (mContext as MainActivity).setupObservers()
+
+                    if((mContext as MainActivity).noInternet) {
+                        (mContext as MainActivity).getViewModelStore().clear();
+                        count++
+                        (mContext as MainActivity).setupViewModel(count)
+                        (mContext as MainActivity).setupObservers()
+                    }else{
+                        Toast.makeText(mContext, "Internet Connection Not Available", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

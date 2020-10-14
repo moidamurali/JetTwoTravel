@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
     private lateinit var viewModel: ArticlesViewModel
     private lateinit var adapter: ArticlesAdapter
     var count = 1
+    var noInternet = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +75,12 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
 
     private fun showNetworkMessage(isConnected: Boolean) {
         if (!isConnected) {
+            noInternet = false
             progressBar.visibility = View.GONE
             Constants.noConnectionDialog(this)
             Toast.makeText(this, "Network Not Available", Toast.LENGTH_LONG).show()
         } else {
-
+            noInternet = true
             setupViewModel(count)
             setupObservers()
         }
