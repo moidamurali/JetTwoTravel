@@ -18,7 +18,7 @@ class ArticlesViewModel : BaseViewModel {
         // a different source can be passed, here i am passing
         val mAPIServiceCall = APIServiceCall.instance
         mAPIServiceCall!!.endPointURL = Constants.Companion.API_BASE_URL
-        mAPIServiceCall!!.hitServiceServiceCall()
+        mAPIServiceCall!!.hitServiceServiceCall(context)
         observableProject = mAPIServiceCall.getArticlesData(limit,pageLoad) // Retro Fit Service Call
     }
 

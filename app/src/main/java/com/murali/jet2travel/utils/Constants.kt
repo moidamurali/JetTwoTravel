@@ -5,11 +5,11 @@
 package com.murali.jet2travel.utils
 
 import android.R
-import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ScaleDrawable
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
@@ -76,20 +76,13 @@ class Constants{
 
             }
 
-        fun noConnectionDialog( activity: Activity){
-            val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(activity)
-            builder.setMessage("No Internet connection. Do you want to close application")
-            builder.setCancelable(true)
-
-            builder.setPositiveButton("Yes", DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
-                activity.finish()
-            })
-
-            builder.setNegativeButton( "No", DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
-
-            val alert: android.app.AlertDialog? = builder.create()
-            alert!!.show()
+        fun hasNetworkConnected(context: Context): Boolean {
+            var isConnected: Boolean = false // Initial Value
+            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+            if (activeNetwork != null && activeNetwork.isConnected)
+                isConnected = true
+            return isConnected
         }
 
         }

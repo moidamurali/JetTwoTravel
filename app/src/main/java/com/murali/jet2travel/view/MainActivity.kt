@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.murali.jet2travel.R
-import com.murali.jet2travel.utils.Constants
 import com.murali.jet2travel.utils.NetworkStateReceiver
 import com.murali.jet2travel.viewmodel.ArticlesViewModel
 import com.murali.jet2travel.viewmodel.BaseFactory
@@ -28,7 +27,6 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
     private lateinit var viewModel: ArticlesViewModel
     private lateinit var adapter: ArticlesAdapter
     var count = 1
-    var noInternet = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,14 +73,14 @@ class MainActivity : AppCompatActivity(), NetworkStateReceiver.NetConnectivityRe
 
     private fun showNetworkMessage(isConnected: Boolean) {
         if (!isConnected) {
-            noInternet = false
-            progressBar.visibility = View.GONE
-            Constants.noConnectionDialog(this)
-            Toast.makeText(this, "Network Not Available", Toast.LENGTH_LONG).show()
+
+            Toast.makeText(this, "Network not available", Toast.LENGTH_LONG).show()
         } else {
-            noInternet = true
-            setupViewModel(count)
-            setupObservers()
+            Toast.makeText(this, "Internet is available", Toast.LENGTH_LONG).show()
+
         }
+        progressBar.visibility = View.GONE
+        setupViewModel(count)
+        setupObservers()
     }
 }

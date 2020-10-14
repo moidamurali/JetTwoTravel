@@ -5,10 +5,12 @@
 package com.murali.jet2travel.network
 
 import Articles
+import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.murali.jet2travel.utils.Constants
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.Buffer
@@ -22,22 +24,28 @@ import java.io.IOException
 class APIServiceCall private constructor() {
     var mAPIServices: APIServices? = null
     var endPointURL: String? = null
+    val cacheSize = (5 * 1024 * 1024).toLong()
 
-    fun hitServiceServiceCall(): APIServices {
-        val httpClient = OkHttpClient.Builder()
+    fun hitServiceServiceCall(context: Context): APIServices {
+        val cache = Cache(context.cacheDir, cacheSize)
+
+        val httpClient = OkHttpClient.Builder().cache(cache)
+
         httpClient.addInterceptor { chain ->
-            val original = chain.request()
-            val originalHttpUrl = original.url()
-            val url = originalHttpUrl.newBuilder().build()
-            val request =
-                original.newBuilder().header("Content-Type", "application/json")
-                    .header("charset", "UTF-8")
-                    .method(original.method(), original.body()).url(url).build()
-            Log.v(
-                "Service::URL::::",
-                request.url().toString() + "::::Headers::::" + request.headers() + "::::" + bodyToString(request))
-            chain.proceed(request)
-        }
+                var request = chain.request()
+                request = if (Constants.hasNetworkConnected(context)!!) {
+                    request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
+                }
+                else {
+                    request.newBuilder().header("Cache-Control","public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7 ).build()
+                }
+
+
+            Log.v("Service::URL::::", request.url().toString() + "::::Headers::::" + request.headers() + "::::" + bodyToString(request))
+                chain.proceed(request)
+            }
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(endPointURL)
             .client(httpClient.build())

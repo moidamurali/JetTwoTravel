@@ -10,14 +10,8 @@ class NetworkStateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
         if (connectivityReceiverListener != null) {
-            connectivityReceiverListener!!.networkConnectionChanged(isConnectedOrConnecting(context!!))
+            connectivityReceiverListener!!.networkConnectionChanged(Constants.hasNetworkConnected(context!!))
         }
-    }
-
-    private fun isConnectedOrConnecting(context: Context): Boolean {
-        val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connMgr.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnectedOrConnecting
     }
 
     interface NetConnectivityReceiverListener {
